@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&family=Readex+Pro:wght@200;300;400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@200;300;400;500;600;700&display=swap">
+<style>
+  [data-hdr-bar] { flex-wrap: wrap; row-gap: 4px; }
+  [data-hdr-nav] { overflow: visible; }
+  [data-hdr-burger] { display: none; }
+  @media (max-width: 900px) {
+    [data-hdr-burger] { display: flex !important; }
+    [data-hdr-brand] { min-height: 44px; }
+    [data-hdr-sub] { font-size: 10px !important; }
+    [data-hdr-bar] { flex-wrap: nowrap; position: relative; }
+    [data-hdr-nav] {
+      position: absolute; top: calc(100% + 6px); inset-inline-end: clamp(16px, 3vw, 40px);
+      min-width: 210px; flex-direction: column; align-items: stretch; gap: 0;
+      padding: 8px; border-radius: 18px;
+      background: rgba(255,255,255,0.86);
+      backdrop-filter: blur(26px) saturate(175%); -webkit-backdrop-filter: blur(26px) saturate(175%);
+      border: 1px solid rgba(255,255,255,0.8);
+      box-shadow: 0 18px 46px rgba(78,42,54,0.18);
+      opacity: 0; transform: translateY(-10px) scale(0.97); transform-origin: top right;
+      pointer-events: none; visibility: hidden;
+      transition: opacity 0.32s cubic-bezier(0.16,1,0.3,1), transform 0.42s cubic-bezier(0.16,1,0.3,1), visibility 0s linear 0.42s;
+    }
+    [dir="rtl"] [data-hdr-nav] { transform-origin: top left; }
+    [data-hdr-nav] a {
+      padding: 13px 14px !important; font-size: 12px !important; color: #4E2A36 !important;
+      opacity: 1 !important; border-radius: 12px;
+      transform: translateY(-6px); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s, background 0.2s;
+    }
+    [data-hdr-nav] a:hover { background: rgba(78,42,54,0.06); }
+    header[data-open="1"] [data-hdr-nav] {
+      opacity: 1; transform: none; pointer-events: auto; visibility: visible;
+      transition: opacity 0.32s cubic-bezier(0.16,1,0.3,1), transform 0.42s cubic-bezier(0.16,1,0.3,1), visibility 0s;
+    }
+    header[data-open="1"] [data-hdr-nav] a { transform: none; }
+    header[data-open="1"] [data-hdr-nav] a:nth-child(1) { transition-delay: 0.04s; }
+    header[data-open="1"] [data-hdr-nav] a:nth-child(2) { transition-delay: 0.08s; }
+    header[data-open="1"] [data-hdr-nav] a:nth-child(3) { transition-delay: 0.12s; }
+    header[data-open="1"] [data-hdr-nav] a:nth-child(4) { transition-delay: 0.16s; }
+    header[data-open="1"] [data-hdr-nav] a:nth-child(5) { transition-delay: 0.20s; }
+    header[data-open="1"] [data-hdr-burger] [data-bar]:nth-child(1) { transform: translateY(5.2px) rotate(45deg); }
+    header[data-open="1"] [data-hdr-burger] [data-bar]:nth-child(2) { opacity: 0; transform: scaleX(0.4); }
+    header[data-open="1"] [data-hdr-burger] [data-bar]:nth-child(3) { transform: translateY(-5.2px) rotate(-45deg); }
+    [data-hdr-gap] [data-hdr-nav] { display: none; }
+  }
+  [data-lang-short] { display: none; }
+  @media (max-width: 560px) {
+    [data-hdr-sub] { display: none; }
+    [data-lang-full] { display: none; }
+    [data-lang-short] { display: flex; align-items: center; justify-content: center; }
+    [data-hdr-lang] { padding: 7px 11px !important; margin-inline-start: 6px; font-size: 12px !important; letter-spacing: 0 !important; }
+    [data-hdr-bar] { gap: 8px !important; }
+  }
+  [dir="rtl"] [data-hdr-nav] a, [dir="rtl"] [data-hdr-lang] { letter-spacing: normal; }
+</style>
+</helmet>
+<header data-open="{{ menuOpen }}" dir="{{ dir }}" style="position: {{ pos }}; top: 0; left: 0; right: 0; z-index: 60; background: {{ barBg }}; backdrop-filter: {{ barBlur }}; border-bottom: 1px solid {{ barBorder }}; box-shadow: {{ barShadow }}; transition: background 0.45s, box-shadow 0.45s cubic-bezier(0.16,1,0.3,1), border-color 0.45s, backdrop-filter 0.45s; font-family: 'Montserrat', sans-serif;">
+  <nav data-hdr-bar style="max-width: 1440px; margin: 0 auto; padding: 14px clamp(16px, 3vw, 40px); display: flex; align-items: center; gap: clamp(6px, 1vw, 16px);">
+    <a data-hdr-brand href="index.html" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0; min-width: 0;">
+      <img src="{{ mark }}" alt="Elegant Middle East" style="width: 38px; height: 38px; display: block;">
+      <span style="display: flex; flex-direction: column; line-height: 1.05;">
+        <span style="font-size: clamp(11px, 1vw, 14px); font-weight: 600; letter-spacing: 0.01em; text-transform: uppercase; white-space: nowrap; color: {{ ink }}; transition: color 0.45s;">{{ brandName }}</span>
+        <span data-hdr-sub style="font-size: 9px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; color: {{ inkMuted }}; transition: color 0.45s;">{{ brandSub }}</span>
+      </span>
+    </a>
+    <div data-hdr-spacer style="flex: 1;"></div>
+    <div data-hdr-nav style="display: flex; align-items: center; gap: 2px; flex-wrap: wrap; font-family: {{ fontStack }};">
+      <a href="index.html" style="position: relative; padding: 10px clamp(7px, 0.9vw, 16px); font-size: clamp(10px, 0.85vw, 12px); white-space: nowrap; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: {{ ink }}; opacity: {{ opHome }}; transition: opacity 0.25s, color 0.45s;" style-hover="opacity: 1;">{{ navHome }}</a>
+      <a href="divisions.html" style="position: relative; padding: 10px clamp(7px, 0.9vw, 16px); font-size: clamp(10px, 0.85vw, 12px); white-space: nowrap; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: {{ ink }}; opacity: {{ opDivisions }}; transition: opacity 0.25s, color 0.45s;" style-hover="opacity: 1;">{{ navDivisions }}</a>
+      <a href="work.html" style="position: relative; padding: 10px clamp(7px, 0.9vw, 16px); font-size: clamp(10px, 0.85vw, 12px); white-space: nowrap; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: {{ ink }}; opacity: {{ opProjects }}; transition: opacity 0.25s, color 0.45s;" style-hover="opacity: 1;">{{ navProjects }}</a>
+      <a href="about.html" style="position: relative; padding: 10px clamp(7px, 0.9vw, 16px); font-size: clamp(10px, 0.85vw, 12px); white-space: nowrap; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: {{ ink }}; opacity: {{ opAbout }}; transition: opacity 0.25s, color 0.45s;" style-hover="opacity: 1;">{{ navAbout }}</a>
+      <a href="contact.html" style="position: relative; padding: 10px clamp(7px, 0.9vw, 16px); font-size: clamp(10px, 0.85vw, 12px); white-space: nowrap; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: {{ ink }}; opacity: {{ opContact }}; transition: opacity 0.25s, color 0.45s;" style-hover="opacity: 1;">{{ navContact }}</a>
+    </div>
+    <button data-hdr-lang sc-camel-on-click="{{ onToggleLang }}" style="flex-shrink: 0; padding: 9px clamp(9px, 1vw, 14px); border-radius: 999px; border: 1px solid {{ ruleColor }}; background: {{ chipBg }}; backdrop-filter: blur(14px); font-family: inherit; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: {{ ink }}; cursor: pointer; transition: color 0.45s, border-color 0.45s, background 0.25s;" style-hover="background: {{ hoverWash }}; box-shadow: 0 6px 18px rgba(78,42,54,0.16);"><span data-lang-full>{{ langLabel }}</span><span data-lang-short>{{ langShort }}</span></button>
+    <button data-hdr-burger sc-camel-on-click="{{ onToggleMenu }}" aria-label="Menu" style="flex-shrink: 0; width: 42px; height: 42px; padding: 0; border-radius: 999px; border: 1px solid {{ ruleColor }}; background: {{ chipBg }}; backdrop-filter: blur(14px); cursor: pointer; align-items: center; justify-content: center; transition: border-color 0.45s, background 0.25s;" style-hover="background: {{ hoverWash }};"><span data-burger-box style="position: relative; display: block; width: 17px; height: 12px;"><span data-bar style="position: absolute; left: 0; top: 0; width: 100%; height: 1.6px; border-radius: 2px; background: {{ ink }}; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.25s, background 0.45s;"></span><span data-bar style="position: absolute; left: 0; top: 5.2px; width: 100%; height: 1.6px; border-radius: 2px; background: {{ ink }}; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.25s, background 0.45s;"></span><span data-bar style="position: absolute; left: 0; top: 10.4px; width: 100%; height: 1.6px; border-radius: 2px; background: {{ ink }}; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.25s, background 0.45s;"></span></span></button>
+  </nav>
+</header>
+<sc-if value="{{ showGap }}">
+  <div data-hdr-gap aria-hidden="true" style="visibility: hidden; pointer-events: none; user-select: none; border-bottom: 1px solid transparent;">
+    <nav data-hdr-bar data-hdr-clone style="max-width: 1440px; margin: 0 auto; padding: 14px clamp(16px, 3vw, 40px); display: flex; align-items: center; gap: clamp(6px, 1vw, 16px);">
+      <a data-hdr-brand style="display: flex; align-items: center; gap: 10px; flex-shrink: 0; min-width: 0;">
+        <img src="{{ mark }}" alt="Elegant Middle East" style="width: 38px; height: 38px; display: block;">
+        <span style="display: flex; flex-direction: column; line-height: 1.05;">
+          <span style="font-size: clamp(11px, 1vw, 14px); font-weight: 600; letter-spacing: 0.01em; text-transform: uppercase; white-space: nowrap; color: {{ ink }}; transition: color 0.45s;">{{ brandName }}</span>
+          <span data-hdr-sub style="font-size: 9px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; color: {{ inkMuted }}; transition: color 0.45s;">{{ brandSub }}</span>
+        </span>
+      </a>
+      <div data-hdr-spacer style="flex: 1;"></div>
+      <div data-hdr-nav style="display: flex; align-items: center; gap: 2px; flex-wrap: wrap; font-family: {{ fontStack }};">
+        <a style="position: relative; padding: 10px clamp(7px, 0.9vw, 16px); font-size: clamp(10px, 0.85vw, 12px); white-space: nowrap; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: {{ ink }}; opacity: {{ opHome }}; transition: opacity 0.25s, color 0.45s;">{{ navHome }}</a>
+        <a style="position: relative; padding: 10px clamp(7px, 0.9vw, 16px); font-size: clamp(10px, 0.85vw, 12px); white-space: nowrap; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: {{ ink }}; opacity: {{ opDivisions }}; transition: opacity 0.25s, color 0.45s;">{{ navDivisions }}</a>
+        <a style="position: relative; padding: 10px clamp(7px, 0.9vw, 16px); font-size: clamp(10px, 0.85vw, 12px); white-space: nowrap; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: {{ ink }}; opacity: {{ opProjects }}; transition: opacity 0.25s, color 0.45s;">{{ navProjects }}</a>
+        <a style="position: relative; padding: 10px clamp(7px, 0.9vw, 16px); font-size: clamp(10px, 0.85vw, 12px); white-space: nowrap; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: {{ ink }}; opacity: {{ opAbout }}; transition: opacity 0.25s, color 0.45s;">{{ navAbout }}</a>
+        <a style="position: relative; padding: 10px clamp(7px, 0.9vw, 16px); font-size: clamp(10px, 0.85vw, 12px); white-space: nowrap; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: {{ ink }}; opacity: {{ opContact }}; transition: opacity 0.25s, color 0.45s;">{{ navContact }}</a>
+      </div>
+      <button data-hdr-lang style="flex-shrink: 0; padding: 9px clamp(9px, 1vw, 14px); border-radius: 999px; border: 1px solid {{ ruleColor }}; background: {{ chipBg }}; backdrop-filter: blur(14px); font-family: inherit; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: {{ ink }}; cursor: pointer; transition: color 0.45s, border-color 0.45s, background 0.25s;"><span data-lang-full>{{ langLabel }}</span><span data-lang-short>{{ langShort }}</span></button>
+      <span data-hdr-burger style="flex-shrink: 0; width: 42px; height: 42px; border-radius: 999px; border: 1px solid transparent;"></span>
+    </nav>
+  </div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;en&quot;,&quot;ar&quot;],&quot;default&quot;:&quot;en&quot;,&quot;tsType&quot;:&quot;'en' | 'ar'&quot;},&quot;active&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;divisions&quot;,&quot;projects&quot;,&quot;about&quot;,&quot;contact&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;overlay&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;onToggleLang&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+const L = {
+  en: { langShort: "ع", brandName: "Elegant Middle East", brandSub: "Events · Structures · Facility", navHome: "Home", navDivisions: "Divisions", navProjects: "Work", navAbout: "About", navContact: "Contact", langLabel: "عربي", ctaLabel: "Contact" },
+  ar: { langShort: "EN", brandName: "Elegant Middle East", brandSub: "Events · Structures · Facility", navHome: "الرئيسية", navDivisions: "أقسامنا", navProjects: "أعمالنا", navAbout: "عن الشركة", navContact: "اتصل بنا", langLabel: "EN", ctaLabel: "تواصل معنا" }
+};
+class Component extends DCLogic {
+  state = { scrolled: false, menuOpen: false };
+  componentDidMount() {
+    this.onScroll = () => {
+      const s = window.scrollY > 80;
+      if (s !== this.state.scrolled) this.setState({ scrolled: s });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onScroll();
+    this.icons();
+    this.onDoc = (e) => {
+      if (!this.state.menuOpen) return;
+      const hdr = document.querySelector('header[data-open]');
+      if (hdr && !hdr.contains(e.target)) this.setState({ menuOpen: false });
+    };
+    this.onKey = (e) => { if (e.key === 'Escape' && this.state.menuOpen) this.setState({ menuOpen: false }); };
+    this.onResize = () => { if (window.innerWidth > 900 && this.state.menuOpen) this.setState({ menuOpen: false }); };
+    document.addEventListener('click', this.onDoc);
+    document.addEventListener('keydown', this.onKey);
+    window.addEventListener('resize', this.onResize, { passive: true });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    document.removeEventListener('click', this.onDoc);
+    document.removeEventListener('keydown', this.onKey);
+    window.removeEventListener('resize', this.onResize);
+  }
+  componentDidUpdate() { this.icons(); }
+  icons() { if (window.lucide) { try { window.lucide.createIcons(); } catch (e) {} } else setTimeout(() => this.icons(), 250); }
+  renderVals() {
+    const ar = (this.props.lang ?? "en") === "ar";
+    const active = this.props.active ?? "home";
+    const isOverlay = this.props.overlay ?? false;
+    const overHero = isOverlay && !this.state.scrolled;
+    const solid = this.state.scrolled;
+    return {
+      pos: "fixed",
+      menuOpen: this.state.menuOpen ? "1" : "0",
+      onToggleMenu: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState(s => ({ menuOpen: !s.menuOpen })); },
+      showGap: !isOverlay,
+      ...L[ar ? "ar" : "en"],
+      dir: ar ? "rtl" : "ltr",
+      fontStack: ar ? "'IBM Plex Sans Arabic', 'Montserrat', sans-serif" : "'Montserrat', sans-serif",
+      barBg: solid ? "rgba(255,255,255,0.58)" : "transparent",
+      barBlur: solid ? "blur(28px) saturate(180%)" : "none",
+      barBorder: solid ? "rgba(255,255,255,0.7)" : "transparent",
+      barShadow: solid ? "0 8px 30px rgba(78,42,54,0.10), inset 0 1px 0 rgba(255,255,255,0.85)" : "none",
+      ink: overHero ? "#FBF8F6" : "#4E2A36",
+      inkMuted: overHero ? "rgba(251,248,246,0.6)" : "#BC8565",
+      ruleColor: overHero ? "rgba(251,248,246,0.45)" : "rgba(78,42,54,0.25)",
+      chipBg: overHero ? "rgba(251,248,246,0.16)" : "rgba(255,255,255,0.5)",
+      hoverWash: overHero ? "rgba(251,248,246,0.14)" : "rgba(78,42,54,0.07)",
+      ctaBg: overHero ? "#FBF8F6" : "#4E2A36",
+      ctaInk: overHero ? "#4E2A36" : "#FBF8F6",
+      mark: overHero ? "assets/logo-mark.png" : "assets/logo-mark-alt.png",
+      opHome: active === "home" ? 1 : 0.6,
+      opDivisions: active === "divisions" ? 1 : 0.6,
+      opProjects: active === "projects" ? 1 : 0.6,
+      opContact: active === "contact" ? 1 : 0.6,
+      opAbout: active === "about" ? 1 : 0.6,
+      onToggleLang: this.props.onToggleLang
+    };
+  }
+}
+
+</script>
+</body>
+</html>
